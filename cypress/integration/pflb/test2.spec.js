@@ -21,8 +21,10 @@ context('Test 2', () => {
                 .type(test.information);
             cy.get('.item-submit > .Button').click();
             cy.reload()
-            cy.get('.Post > :nth-child(1) > .Post-body > p').contains(test.information).should('have.text', test.information);
-
+            cy.get('.Post-body > p')
+                .then((res) => {
+                    expect(Object.values(res).some(p => p.textContent === test.information)).eql(true)
+                })
         })
     })
 });
