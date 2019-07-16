@@ -34,7 +34,7 @@ context('Test 1', () => {
         it('change information', () => {
             cy.route(`/u/${test.login}`, () => {
                 return userInfoRes
-            })
+            });
             cy.get('.item-session > .ButtonGroup > .Dropdown-toggle').click();
             cy.get('.item-profile > .hasIcon').click();
             cy.get('.UserBio-content').click();
@@ -63,7 +63,10 @@ context('Test 1', () => {
             cy.visit('/');
             cy.get('.item-session > .ButtonGroup > .Dropdown-toggle').click();
             cy.get('.item-profile > .hasIcon').click();
-            cy.wait('@postsInfo');
+            cy.wait('@postsInfo')
+                .then((res) => {
+                    expect(res.response.body.included[0].attributes.bio).to.eql(test.information)
+                });
             cy.get('.UserBio-content').contains(test.information)
         })
     })
